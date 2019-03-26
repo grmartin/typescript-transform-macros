@@ -1,13 +1,19 @@
 import * as ts from "typescript";
-import { resolve } from "path";
+import * as fs from "fs";
+import * as path from "path";
 import transformer from "./";
-import { readFileSync } from "fs";
+
+const fixturePath = path.join(__dirname, "__fixtures");
 
 describe("transformer", () => {
-  it("should compile", () => {
-    const inputFile = resolve(__dirname, "__fixtures/input.ts");
-    const result = transform(readFileSync(inputFile).toString());
-    expect(result).toMatchSnapshot();
+  describe("should compile and match snap", () => {
+    fs.readdirSync(fixturePath)
+      .map((fileName) => ({name: fileName, abs: path.resolve(path.join(fixturePath, fileName))}))
+      .forEach((inputFile) =>
+        test(`For Fixture: ${inputFile.name}`, () => {
+          const result = transform(fs.readFileSync(inputFile.abs).toString());
+          expect(result).toMatchSnapshot();
+        }));
   });
 });
 

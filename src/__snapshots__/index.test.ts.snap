@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`transformer should compile 1`] = `
+exports[`transformer should compile and match snap For Fixture: input.ts 1`] = `
 "declare function MACRO<T>(t: T): T;
 declare interface Array<T> {
     MAP: Array<T>[\\"map\\"];
@@ -30,5 +30,19 @@ for (let i_3 = 0; i_3 < length_3; i_3++) {
         input_3[i_3].toString();
 }
 console.log(result_3);
+"
+`;
+
+exports[`transformer should compile and match snap For Fixture: varargs.ts 1`] = `
+"declare function MACRO<T>(t: T): T;
+const URNBase = [\\"urn\\", \\"whft\\"];
+export const URN = Object.freeze({
+    express: Object.freeze({
+        REQUEST_ID: (...args: string[]) => [...URNBase, ...[\\"ex-req\\"], ...args].join(\\":\\")
+    }),
+    dbObjects: Object.freeze({
+        USER: (...args: string[]) => [...URNBase, ...[\\"pgdb\\", \\"user\\"], ...args].join(\\":\\")
+    })
+});
 "
 `;
